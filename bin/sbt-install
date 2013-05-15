@@ -22,7 +22,7 @@ fi
 cd ${sbtdir}
 
 # bin/sbt-launch.jar
-echo "Downloading sbt-lanch.jar ...."
+echo "Downloading sbt-launch.jar ...."
 curl -LO "http://repo.typesafe.com/typesafe/ivy-releases/org.scala-sbt/sbt-launch/0.12.3/sbt-launch.jar"
 
 # bin/sbt 
@@ -31,11 +31,19 @@ echo '#/usr/bin/env sh
 java -Xms512M -Xmx1536M -Xss1M -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=384M -jar `dirname $0`/sbt-launch.jar "$@"' > sbt
 chmod 775 sbt
 
+cd ${installdir}
+
+# etc/bashrc 
+mkdir etc
+echo "PATH=${sbtdir}:\$PATH
+
+export PATH" > etc/bashrc 
+
 # Complete messages 
 echo ""
 echo "sbt/sbt-launch.jar has been installed at ${sbtdir}."
 echo "Don't forget to add to your environment variable PATH."
 echo ""
-echo "    % echo 'export PATH=${sbtdir}:\$PATH;' > ~/.bash_profile"
+echo "    % echo 'export PATH=${sbtdir}:\$PATH' > ~/.bash_profile"
 echo "    % . ~/.bash_profile"
 echo ""
